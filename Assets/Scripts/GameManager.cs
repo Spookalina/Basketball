@@ -8,9 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public int score;
     public int highScore;
-    public int gameTime = 60;
+    public int gameTime = 2;
     private bool coroutineStop = true;
-    public GameObject highScoreText,scoreText,timeText;
+    public GameObject highScoreText,scoreText,timeText,spacebar;
     public Spawner spawner;
     // Start is called before the first frame update
     void Start()
@@ -32,9 +32,19 @@ public class GameManager : MonoBehaviour
 
         if(gameTime <= 0)
         {
+            spacebar.SetActive(true);
             coroutineStop = false;
             spawner.instantiateBalls = false;
-            
+            if(Input.GetKey(KeyCode.Space))
+            {
+                spacebar.SetActive(false);
+                gameTime = 60;
+                score = 0;
+                coroutineStop = true;
+                spawner.instantiateBalls = true;
+                StartCoroutine(TimeCoroutine());
+                StartCoroutine(spawner.InstantiateBalls());
+            }
         }
     }
 
